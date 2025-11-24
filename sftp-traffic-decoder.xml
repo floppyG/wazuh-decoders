@@ -1,0 +1,86 @@
+<decoder name="sftp-decoder">
+  <prematch type="pcre2">sftp</prematch>
+</decoder>
+
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">(\d+)\s+(\S+)\s+(\d+)\s+\/</regex>
+  <order>session_id, srcip, bytes</order>
+</decoder>
+
+<!-- Extract third directory from path -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\/[^\/]+\/[^\/]+\/([^\/]+)\/</regex>
+  <order>third_directory</order>
+</decoder>
+
+<!-- Extract filename -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\/([^\/]+)\.(\w+)\s+[ba]\s+</regex>
+  <order>filename</order>
+</decoder>
+
+<!-- Extract file extension -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\/[^\/]+\.(\w+)\s+[ba]\s+</regex>
+  <order>file_extension</order>
+</decoder>
+
+<!-- Extract transfer type -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+([ba])\s+[_c]\s+[iod]\s+[rf]\s+</regex>
+  <order>transfer_type</order>
+</decoder>
+
+<!-- Extract connection type -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+[ba]\s+([_c])\s+[iod]\s+[rf]\s+</regex>
+  <order>connection_type</order>
+</decoder>
+
+<!-- Extract direction -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+[ba]\s+[_c]\s+([iod])\s+[rf]\s+</regex>
+  <order>direction</order>
+</decoder>
+
+<!-- Extract mode -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+[ba]\s+[_c]\s+[iod]\s+([rf])\s+</regex>
+  <order>mode</order>
+</decoder>
+
+<!-- Extract user -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+[rf]\s+(\S+)\s+sftp\s+</regex>
+  <order>dstuser</order>
+</decoder>
+
+<!-- Extract service -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+[rf]\s+\S+\s+(sftp)\s+</regex>
+  <order>service</order>
+</decoder>
+
+<!-- Extract response code -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+sftp\s+(\d+)\s+</regex>
+  <order>response_code</order>
+</decoder>
+
+<!-- Extract completion status -->
+<decoder name="sftp-decoder-son">
+  <parent>sftp-decoder</parent>
+  <regex type="pcre2">\s+([ci])$</regex>
+  <order>completion_status</order>
+</decoder>
